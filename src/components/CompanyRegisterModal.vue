@@ -6,7 +6,7 @@
                 <v-btn color="primary" dark v-bind="attrs" v-on="on">
                     Open Dialog
                 </v-btn>
-             
+
             </template>
             <v-card>
                 <v-card-title>
@@ -20,7 +20,7 @@
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-container>
-                        
+
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field label="Nome" required></v-text-field>
@@ -75,18 +75,24 @@ export default {
 .v-card.v-sheet.theme--light {
     padding: 20px;
 }
-.v-btn:before{
+
+.v-btn:before {
     background-color: rgba(255, 255, 255, 0);
 }
-.v-btn:hover{
+
+.v-btn:hover {
     background-color: rgba(255, 255, 255, 0);
 }
-.v-input__slot{
-  border: 1px solid rgb(137, 137, 137);
-  border-radius: 4px!important;
-  height: 50px;
+
+.v-input__slot {
+    border: 1px solid rgb(137, 137, 137);
+    border-radius: 4px !important;
+    height: 50px;
 }
-.v-text-field input{
+
+.v-text-field input {
     padding: 8px;
 }
+
+
 </style>
