@@ -13,7 +13,7 @@
         </div>
     </nav>
 </template>
-<style>
+<style scoped>
 
 .navbar-content {
     padding: 0 20px 0 20px;
@@ -32,13 +32,14 @@ nav.navbar.bg-body-tertiary {
 
 .user {
     color: #969696;
-    padding-top: 8px;
+    padding-top: 15px;
 }
 
 .user-icon {
-    margin: 0 20px 0 20px;
+    margin: 10px 20px 0 20px;
     height: 30px;
     width: 30px;
+    /* background-size: cover!important; */
 }
 
 .v-card.v-sheet.theme--light {
@@ -48,4 +49,5 @@ nav.navbar.bg-body-tertiary {
 .img {
     height: 10px;
     width: 10px;
-}</style>
+}
+</style>
