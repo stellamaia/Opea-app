@@ -462,7 +462,7 @@ input:focus {
     box-shadow: none;
     border: none;
     border-radius: 5px;
-    margin: 0 20px 0 0 !important;
+    margin: 0 !important;
 
 }
 
