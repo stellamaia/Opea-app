@@ -28,7 +28,7 @@
 
                     <div @click="openModalCompany(company)" class="add-btn-input" id="meuBotao">
                         <div class="rounded-icon-input">
-                            <img class="list-icon-input" src="@/assets/list.png" alt="Add Icon">
+                            <img class="list-icon-input" src="@/assets/list-input.png" alt="Add Icon">
                         </div>
                         <div class="content-items">
                             <p class="item company">Nome: {{ company.name }}</p>
@@ -296,9 +296,7 @@ input:focus {
 .add-company-input {
     padding-top: 10px;
     background-color: #F5F5F5 !important;
-
 }
-
 .add-btn {
     height: 50px !important;
     width: 100%;
@@ -316,7 +314,7 @@ input:focus {
     width: 100%;
     display: flex;
     box-shadow: none;
-    border: 1.3px solid rgb(217, 217, 217);
+  
     background-color: #ffffff !important;
     border-radius: 30px 6px 6px 30px;
     font-size: 14.5px !important;
@@ -324,19 +322,17 @@ input:focus {
     color: #616161 !important;
     padding-left: 8px;
     padding-top: 2px;
-
 }
 
 .content-items {
     padding-left: 15px;
-
     padding-top: 6px;
 }
 
 .item {
     font-size: 10px;
     margin: 0;
-    padding-right: 10px;
+   
 }
 
 .company {
@@ -355,34 +351,28 @@ input:focus {
 
 .rounded-icon-btn {
     position: absolute;
-    /* top: 261px; */
     left: 39px;
     z-index: 1;
     height: 40px;
     width: 40px;
     border-radius: 50%;
     background-color: #F5F5F5;
-    border: 1px solid rgb(123, 123, 123);
+    border: 1.2px solid rgb(142, 142, 142);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .rounded-icon-input {
-    /* position: absolute;
-    top: 338px;
-    left: 39px;
-    z-index: 1; */
     height: 40px;
     width: 40px;
     border-radius: 50%;
     background-color: #F5F5F5;
-    border: 1px solid rgb(123, 123, 123);
+    border: 1.3px solid #949494;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 2px;
-
 }
 
 .list-icon {
@@ -405,7 +395,6 @@ input:focus {
 .close-modal-register {
     height: 50px;
     width: 50px;
-
 }
 
 .content-card {
@@ -429,6 +418,8 @@ input:focus {
     border-radius: 3px;
     height: 40px;
     width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .content-btn {
@@ -487,13 +478,10 @@ input:focus {
 
 }
 
-
-
 .divider {
     margin: 0;
     border: 1px solid;
     border-color: rgb(120 120 120 / 65%);
-
 }
 
 .close-btn {
@@ -580,7 +568,7 @@ input:focus {
 
     .item {
         padding: 0 0 0 5px;
-        /* font-size: 7px; */
+        
     }
 
     .rounded-icon-input {
@@ -608,7 +596,6 @@ input:focus {
         margin-left: 3px !important;
         font-size: 12px;
     }
-
 
 }
 
@@ -656,8 +643,6 @@ input:focus {
     .rounded-icon-btn {
         left: 19px;
         top: 261px !important;
-
-
     }
 
     .container-btn {
@@ -681,7 +666,6 @@ input:focus {
 @media screen and (min-width: 601px) {
     .img-search {
         top: 165px;
-
     }
 
     .rounded-icon-btn {
