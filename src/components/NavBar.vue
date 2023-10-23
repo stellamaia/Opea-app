@@ -14,7 +14,10 @@
     </nav>
 </template>
 <style scoped>
+.navbar{
+    padding: 0;
 
+}
 .navbar-content {
     padding: 0 20px 0 20px;
     display: flex;
@@ -39,6 +42,7 @@ nav.navbar.bg-body-tertiary {
     margin: 10px 20px 0 20px;
     height: 30px;
     width: 30px;
+    cursor: pointer;
     /* background-size: cover!important; */
 }
 
@@ -49,5 +53,29 @@ nav.navbar.bg-body-tertiary {
 .img {
     height: 10px;
     width: 10px;
+}
+@media screen and (max-width: 300px) {
+    .user{
+        padding-top: 2px;
+        font-size: 8px;
+    }
+    .content-user{
+        position: relative;
+    left: 20px;
+    display: flex;
+    flex-direction: column-reverse;
+    }
+    .navbar-content{
+        padding: 10px 20px 0 20px;
+    }
+    
+   
+}
+@media screen and (min-width: 301px) and (max-width: 600px) {
+    .user-icon{
+        margin: 10px 0 0 20px;
+      
+    }
+   
 }
 </style>
