@@ -26,7 +26,7 @@
 
                 <div v-for="company in companies" :key="company.id" class="add-company-input">
 
-                    <div @click="dialog = true"  class="add-btn-input" id="meuBotao">
+                    <div @click="openModalCompany(company)" class="add-btn-input" id="meuBotao">
                         <div class="rounded-icon-input">
                             <img class="list-icon-input" src="@/assets/list.png" alt="Add Icon">
                         </div>
@@ -71,27 +71,30 @@
                             </v-col>
                             <v-col cols="12">
                                 <label class="label label-cnpj">CNPJ</label>
-                                <input class="input" type="text" id="cnpj" v-model="cnpj" />
+                                <input class="input" type="text" id="cnpj" v-model="cnpj" v-mask="'##.###.###/####-##'" />
                             </v-col>
                             <v-col cols="12">
                                 <label class="label">E-mail</label>
                                 <input class="input" type="text" id="email" v-model="email" />
                             </v-col>
-                            <v-alert v-if="showAlert" border="left" color="red" type="error">
-                                Preenchaos os campos
-                            </v-alert>
+                            <v-col style="padding-bottom: 0;" cols="12">
+                                <v-alert v-if="showAlert" class="alert" border="left" color="red" type="error">
+                                    Preencha os campos
+                                </v-alert>
+                            </v-col>
                         </v-row>
                     </v-form>
                 </v-card-text>
                 <v-card-actions class="content-btn">
 
-                    <v-btn color="delete-btn " @click="excluirEmpresa(company.id)">
+                    <v-btn color="delete-btn " @click="excluirEmpresa">
                         <img class="delete-btn-img" src="../assets/delete.png" />
                     </v-btn>
 
                     <div class="container-btn">
-                        <v-btn color="btn-cancel" @click="closeDialog">Cancelar</v-btn>
-                        <v-btn color="btn-register" @click="createCompany">Cadastrar</v-btn>
+                        <v-btn class="btn-cancel" @click="closeDialog">Cancelar</v-btn>
+                        <v-btn v-if="!id" class="btn-register" @click="createCompany">Cadastrar</v-btn>
+                        <v-btn v-else class="btn-register-update" @click="updateCompany">Alterar</v-btn>
                     </div>
                 </v-card-actions>
             </v-card>
@@ -107,6 +110,7 @@ export default {
     components: {
         NavBar
     },
+
     data() {
         return {
             searchText: "",
@@ -128,11 +132,14 @@ export default {
             ],
         };
     },
-
+    created() {
+        this.getCompanies();
+    },
     methods: {
-     openDialog() {
-         this.dialog = true;
-     },
+
+        openDialog() {
+            this.dialog = true;
+        },
         closeDialog() {
             this.dialog = false;
             this.resetForm();
@@ -144,16 +151,23 @@ export default {
             this.showAlert = false; // Hide the alert
         },
         resetForm() {
+            this.id = "";
             this.nome = "";
             this.cnpj = "";
             this.email = "";
             this.$refs.form.resetValidation();
+
         },
         searchCompanies() {
             axios.get(`https://outros.opea-uat.solutions/prova/front/api/clients?text=${this.searchText}`).then((response) => {
                 this.companies = response.data;
                 // console.log(response.data);
             });
+        },
+        getCompanies() {
+            axios.get(`https://outros.opea-uat.solutions/prova/front/api/clients`).then((response) => {
+                this.companies = response.data;
+            })
         },
         createCompany() {
             if (this.nome.trim() === '' || this.cnpj.trim() === '' || this.email.trim() === '') {
@@ -175,30 +189,59 @@ export default {
                 }
             }
         },
+        updateCompany() {
+            if (this.nome.trim() === '' || this.cnpj.trim() === '' || this.email.trim() === '') {
+                this.showAlert = true; // Show the alert
+            }
+            else {
 
+                axios.put(`https://outros.opea-uat.solutions/prova/front/api/clients/${this.id}`, {
+                    name: this.nome,
+                    cnpj: this.cnpj,
+                    email: this.email,
+                }).then((response) => {
+                    this.companies = this.companies.map(company => {
+                        if (company.id === this.id) {
+                            return response.data
+                        } else {
+                            return company
+                        }
+                    }
+                    );
+                    this.closeDialog();
+                });
+
+            }
+        },
 
         editarEmpresa(empresa) {
-        this.id = empresa.id;
-        this.nome = empresa.name;
-        this.cnpj = empresa.cnpj;
-        this.email = empresa.email;
-        this.dialog = true; // Abra o diálogo para edição
-    },
-        excluirEmpresa(id) {
-  const confirmarExclusao = confirm('Tem certeza de que deseja excluir esta empresa?');
-  if (confirmarExclusao) {
-    axios.delete(`https://outros.opea-uat.solutions/prova/front/api/clients/${id}`)
-      .then(() => {
-        // Remova a empresa excluída da lista
-        this.companies = this.companies.filter(company => company.id !== id);
-      })
-      .catch(error => {
-        console.error('Erro ao excluir a empresa:', error);
-      });
-  }
-}
+            this.id = empresa.id;
+            this.nome = empresa.name;
+            this.cnpj = empresa.cnpj;
+            this.email = empresa.email;
+            this.dialog = true; // Abra o diálogo para edição
+        },
+        excluirEmpresa() {
+            const id = this.id;
+            axios.delete(`https://outros.opea-uat.solutions/prova/front/api/clients/${id}`)
+                .then(() => {
+                    // Remova a empresa excluída da lista
+                    this.companies = this.companies.filter(company => company.id !== id);
+                    this.closeDialog();
+                })
+                .catch(error => {
+                    console.error('Erro ao excluir a empresa:', error);
+                });
 
+        },
+        openModalCompany(company) {
+            this.id = company.id;
+            this.nome = company.name;
+            this.cnpj = company.cnpj;
+            this.email = company.email;
+            this.dialog = true;
 
+        },
     }
 
 }
@@ -222,9 +265,6 @@ input:focus {
 .container-input {
     padding: 50px 30px 50px 30px;
     background-color: #F5F5F5;
-
-
-
 }
 
 .v-card.v-sheet.theme--light {
@@ -315,7 +355,7 @@ input:focus {
 
 .rounded-icon-btn {
     position: absolute;
-    top: 277px;
+    /* top: 261px; */
     left: 39px;
     z-index: 1;
     height: 40px;
@@ -414,18 +454,44 @@ input:focus {
     background-color: white !important;
     box-shadow: none;
     border: 1.4px solid rgb(226, 226, 226);
-    border-radius: 3px;
+    border-radius: 5px;
     margin: 0 20px 0 0 !important;
 }
 
-.btn-register {
-    background-color: #630A37 !important;
+.btn-cancel:hover {
+    background-color: #b2556ebd !important;
     color: white;
+    border-color: #b2556e00;
+}
+
+.btn-register,
+.btn-register-update {
+    background-color: #630A37 !important;
+    color: white !important;
+    box-shadow: none;
+    border: none;
+    border-radius: 5px;
+    margin: 0 20px 0 0 !important;
 
 }
 
+.theme--light.v-btn.v-btn--has-bg {
+    background-color: transparent;
+}
+
+.btn-register:hover,
+.btn-register-update:hover {
+    background-color: #b2556ebd !important;
+    border: none;
+    color: white !important;
+
+}
+
+
+
 .divider {
     margin: 0;
+    border: 1px solid;
     border-color: rgb(120 120 120 / 65%);
 
 }
@@ -444,11 +510,182 @@ input:focus {
     margin-top: 20px;
 }
 
+.form-control:focus {
+
+    background-color: transparent;
+    border-color: rgb(226, 226, 226);
+    outline: 0;
+    box-shadow: none;
+}
+
 .search-company {
     text-align: center;
     font-size: 13px !important;
     font-weight: bold !important;
     color: #969696 !important;
     padding-top: 20px;
+}
+
+.alert {
+    padding: 0 0 0px 11px;
+    font-size: 10px;
+    background-color: #b2556ebd !important;
+    border: none;
+
+}
+
+@media screen and (max-width: 300px) {
+    .input-content {
+        display: flex;
+        justify-content: center;
+
+    }
+
+    .form-control {
+        width: 100% !important;
+    }
+
+    .img-search {
+        position: relative;
+        left: 177px !important;
+        top: -31px;
+    }
+
+    .rounded-icon-btn {
+        top: 286px !important;
+        left: 19px;
+    }
+
+    .container-input {
+        padding: 50px 10px 50px 10px;
+    }
+
+    .content-items {
+        padding-top: 8px;
+        padding-left: 5px;
+    }
+
+    .add-btn {
+        padding-left: 36px !important;
+    }
+
+    .add-btn-input {
+        height: 0;
+        padding-top: 0;
+    }
+
+    .item-flex {
+        padding-top: 0;
+    }
+
+    .item {
+        padding: 0 0 0 5px;
+        /* font-size: 7px; */
+    }
+
+    .rounded-icon-input {
+        margin-top: 4px;
+    }
+
+    .title-modal {
+        font-size: 70% !important;
+
+    }
+
+    .container-btn {
+        display: flex !important;
+
+    }
+
+    .btn-cancel {
+        padding: 5px !important;
+        margin-right: 3px !important;
+        font-size: 12px;
+    }
+
+    .btn-register {
+        padding: 5px !important;
+        margin-left: 3px !important;
+        font-size: 12px;
+    }
+
+
+}
+
+@media screen and (min-width: 300px) and (max-width: 354px) {
+    .item {
+        font-size: 9px !important;
+    }
+
+}
+
+@media screen and (min-width: 301px) and (max-width: 600px) {
+    .input-content {
+        display: flex;
+        justify-content: center;
+
+    }
+
+    .img-search {
+        left: 267px;
+        position: relative;
+        top: -31px;
+    }
+
+    .container-input {
+        padding: 50px 10px 50px 10px;
+    }
+
+    .content-items {
+        padding-top: 7px;
+    }
+
+    .add-btn-input {
+        height: 0;
+        padding-top: 0;
+    }
+
+    .item-flex {
+        padding-top: 0;
+    }
+
+    .rounded-icon-input {
+        margin-top: 4px;
+    }
+
+    .rounded-icon-btn {
+        left: 19px;
+        top: 261px !important;
+
+
+    }
+
+    .container-btn {
+        display: flex !important;
+
+    }
+
+    .btn-cancel {
+        padding: 5px !important;
+        margin-right: 3px !important;
+        font-size: 12px;
+    }
+
+    .btn-register {
+        padding: 5px !important;
+        margin-left: 3px !important;
+        font-size: 12px;
+    }
+}
+
+@media screen and (min-width: 601px) {
+    .img-search {
+        top: 165px;
+
+    }
+
+    .rounded-icon-btn {
+        top: 261px;
+    }
 }
 </style>
