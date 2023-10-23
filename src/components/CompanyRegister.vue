@@ -665,7 +665,7 @@ input:focus {
 
     .btn-cancel {
         padding: 5px !important;
-        margin-right: 3px !important;
+        margin-right: 10px !important;
         font-size: 12px;
     }
 
