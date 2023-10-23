@@ -31,11 +31,11 @@
                             <img class="list-icon-input" src="@/assets/list-input.png" alt="Add Icon">
                         </div>
                         <div class="content-items">
-                            <p class="item company">Nome: {{ company.name }}</p>
+                            <p class="item company">{{ company.name }}</p>
                             <div class="item-flex">
-                                <p class="item item-cnpj">CNPJ: {{ company.cnpj }}    - </p>
-                   
-                     
+                                <p class="item item-cnpj">CNPJ: {{ company.cnpj }} - </p>
+
+
                                 <p class="item item-company">Email: {{ company.email }}</p>
 
                             </div>
@@ -89,7 +89,7 @@
                 </v-card-text>
                 <v-card-actions class="content-btn">
 
-                    <v-btn color="delete-btn " @click="excluirEmpresa">
+                    <v-btn color="delete-btn " @click="deleteCompany">
                         <img class="delete-btn-img" src="../assets/delete.png" />
                     </v-btn>
 
@@ -122,16 +122,11 @@ export default {
             nome: '',
             email: '',
             cnpj: '',
-            showAlert: false, // Initially, the alert is hidden
-            preventRegistration: false, // Initially, registration is not prevented
-            // ... other data properties ...
+            showAlert: false, 
+            preventRegistration: false, 
             companies: [],
-            filteredCompanies: [],
-            headers: [
-                { text: "Nome", value: "name" },
-                { text: "CNPJ", value: "cnpj" },
-                { text: "Email", value: "email" },
-            ],
+           
+           
         };
     },
     created() {
@@ -150,7 +145,7 @@ export default {
         },
 
         resetAlert() {
-            this.showAlert = false; // Hide the alert
+            this.showAlert = false; 
         },
         resetForm() {
             this.id = "";
@@ -163,7 +158,6 @@ export default {
         searchCompanies() {
             axios.get(`https://outros.opea-uat.solutions/prova/front/api/clients?text=${this.searchText}`).then((response) => {
                 this.companies = response.data;
-                // console.log(response.data);
             });
         },
         getCompanies() {
@@ -215,15 +209,7 @@ export default {
 
             }
         },
-
-        editarEmpresa(empresa) {
-            this.id = empresa.id;
-            this.nome = empresa.name;
-            this.cnpj = empresa.cnpj;
-            this.email = empresa.email;
-            this.dialog = true; // Abra o diálogo para edição
-        },
-        excluirEmpresa() {
+        deleteCompany() {
             const id = this.id;
             axios.delete(`https://outros.opea-uat.solutions/prova/front/api/clients/${id}`)
                 .then(() => {
@@ -337,9 +323,11 @@ input:focus {
     margin: 0;
 
 }
+
 .item-cnpj {
-        padding: 0 3px 0 0!important;
-    }
+    padding: 0 3px 0 0 !important;
+}
+
 .company {
     font-size: 12.5px !important;
     font-weight: 500 !important;
@@ -566,15 +554,19 @@ input:focus {
         height: 0;
         padding-top: 0;
     }
-.item{
-    font-size: 6px !important;
-}
+
+    .item {
+        font-size: 6px !important;
+    }
+
     .item-flex {
         padding-top: 0;
     }
+
     .item-cnpj {
-        padding: 0 5px 0 0!important;
+        padding: 0 5px 0 0 !important;
     }
+
     .item-company {
         padding: 0 0 0 5px;
     }
@@ -610,12 +602,13 @@ input:focus {
 @media screen and (min-width: 300px) and (max-width: 354px) {
     .item {
         font-size: 8px !important;
-        
-      
+
+
     }
-.content-items{
-    padding-top: 13px!important;
-}
+
+    .content-items {
+        padding-top: 13px !important;
+    }
 
 }
 
@@ -648,7 +641,7 @@ input:focus {
     .item-flex {
         padding-top: 0;
     }
-    
+
     .rounded-icon-input {
         margin-top: 4px;
     }
@@ -684,8 +677,5 @@ input:focus {
     .rounded-icon-btn {
         top: 261px;
     }
-    .item {
-      
-    }
-}
-</style>
+
+}</style>
