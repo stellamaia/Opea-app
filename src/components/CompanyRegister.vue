@@ -33,8 +33,10 @@
                         <div class="content-items">
                             <p class="item company">Nome: {{ company.name }}</p>
                             <div class="item-flex">
-                                <p class="item">CNPJ: {{ company.cnpj }}</p>
-                                <p class="item">Email: {{ company.email }}</p>
+                                <p class="item item-cnpj">CNPJ: {{ company.cnpj }}    - </p>
+                   
+                     
+                                <p class="item item-company">Email: {{ company.email }}</p>
 
                             </div>
                         </div>
@@ -297,6 +299,7 @@ input:focus {
     padding-top: 10px;
     background-color: #F5F5F5 !important;
 }
+
 .add-btn {
     height: 50px !important;
     width: 100%;
@@ -314,7 +317,7 @@ input:focus {
     width: 100%;
     display: flex;
     box-shadow: none;
-  
+
     background-color: #ffffff !important;
     border-radius: 30px 6px 6px 30px;
     font-size: 14.5px !important;
@@ -332,9 +335,11 @@ input:focus {
 .item {
     font-size: 10px;
     margin: 0;
-   
-}
 
+}
+.item-cnpj {
+        padding: 0 3px 0 0!important;
+    }
 .company {
     font-size: 12.5px !important;
     font-weight: 500 !important;
@@ -549,7 +554,7 @@ input:focus {
     }
 
     .content-items {
-        padding-top: 8px;
+        padding-top: 14px;
         padding-left: 5px;
     }
 
@@ -561,14 +566,17 @@ input:focus {
         height: 0;
         padding-top: 0;
     }
-
+.item{
+    font-size: 6px !important;
+}
     .item-flex {
         padding-top: 0;
     }
-
-    .item {
+    .item-cnpj {
+        padding: 0 5px 0 0!important;
+    }
+    .item-company {
         padding: 0 0 0 5px;
-        
     }
 
     .rounded-icon-input {
@@ -601,8 +609,13 @@ input:focus {
 
 @media screen and (min-width: 300px) and (max-width: 354px) {
     .item {
-        font-size: 9px !important;
+        font-size: 8px !important;
+        
+      
     }
+.content-items{
+    padding-top: 13px!important;
+}
 
 }
 
@@ -635,7 +648,7 @@ input:focus {
     .item-flex {
         padding-top: 0;
     }
-
+    
     .rounded-icon-input {
         margin-top: 4px;
     }
@@ -670,6 +683,9 @@ input:focus {
 
     .rounded-icon-btn {
         top: 261px;
+    }
+    .item {
+      
     }
 }
 </style>
